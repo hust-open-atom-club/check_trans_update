@@ -43,6 +43,11 @@ jobs:
             || git clone \
                https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
 
+      - name: Overlay repo's checktransupdate.py onto the tree
+        # Our copy carries a fix not yet merged upstream; overwrite the
+        # in-tree version before running the checker.
+        run: cp checktransupdate.py linux/tools/docs/checktransupdate.py
+
       - name: Generate TODO_LIST
         working-directory: linux
         run: python3 tools/docs/checktransupdate.py -l zh_CN > ../TODO_LIST 2>&1
