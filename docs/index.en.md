@@ -1,4 +1,4 @@
-# Linux Doc zh_CN Translation Status
+# Linux Kernel Chinese Translation Status
 
 This site shows, for every page under `Documentation/` in the upstream Linux
 kernel, whether a Chinese (`zh_CN`) translation exists and whether it is up to
