@@ -37,9 +37,9 @@ jobs:
 
       - name: Clone linux docs tree
         run: |
-          git clone --depth 50 --branch docs-next \
-            https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git linux \
-            || git clone --depth 50 \
+          git clone --branch docs-next \
+            https://git.lwn.net/linux.git linux \
+            || git clone \
                https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
 
       - name: Copy checktransupdate.py into the tree
