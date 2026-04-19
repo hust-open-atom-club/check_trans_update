@@ -21,21 +21,22 @@ Features implemented
 -  check a single file or a set of files
 -  provide options to change output format
 -  track the translation status of files that have no translation
+-  files can be a folder instead of only a file
 
 Usage
 -----
 
 ::
 
-   ./scripts/checktransupdate.py --help
+   tools/docs/checktransupdate.py --help
 
 Please refer to the output of argument parser for usage details.
 
 Samples
 
--  ``./scripts/checktransupdate.py -l zh_CN``
+-  ``tools/docs/checktransupdate.py -l zh_CN``
    This will print all the files that need to be updated in the zh_CN locale.
--  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
+-  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
    This will only print the status of the specified file.
 
 Then the output is something like:
@@ -48,7 +49,3 @@ Then the output is something like:
     Documentation/translations/zh_CN/dev-tools/testing-overview.rst
     commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
     1 commits needs resolving in total
-
-Features to be implemented
-
-- files can be a folder instead of only a file
