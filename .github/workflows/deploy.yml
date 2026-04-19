@@ -1,0 +1,70 @@
+name: Build and deploy site
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # 06:00 UTC daily
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "build_site.py"
+      - "mkdocs.yml"
+      - "docs/**"
+      - "requirements.txt"
+      - ".github/workflows/deploy.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Clone linux docs tree
+        run: |
+          git clone --depth 50 --branch docs-next \
+            https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git linux \
+            || git clone --depth 50 \
+               https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
+
+      - name: Copy checktransupdate.py into the tree
+        run: cp checktransupdate.py linux/scripts/checktransupdate.py
+
+      - name: Generate TODO_LIST
+        working-directory: linux
+        run: python3 scripts/checktransupdate.py -l zh_CN > ../TODO_LIST 2>&1
+
+      - name: Build markdown pages
+        run: python3 build_site.py --todo TODO_LIST --out docs
+
+      - name: Build MkDocs site
+        run: mkdocs build --strict
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
