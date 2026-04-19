@@ -34,5 +34,7 @@ def test_parse_identifies_needs_update_records():
 
 def test_parse_skips_unrecognized_records():
     result = parse_todolist(FIXTURE.read_text())
-    assert len(result.skipped) == 1
-    assert result.skipped[0][0] == "Documentation/weird/broken.rst"
+    skipped_paths = [lines[0] for lines in result.skipped]
+    assert "Documentation/weird/broken.rst" in skipped_paths
+    assert "Documentation/translations/zh_CN/fake/only-merges.rst" in skipped_paths
+    assert len(result.skipped) == 2

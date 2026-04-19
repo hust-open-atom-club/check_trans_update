@@ -52,7 +52,7 @@ def parse_todolist(text: str) -> ParsedTodoList:
         else:
             m_total = TOTAL_RE.match(lines[-1])
             commits = [COMMIT_RE.match(l) for l in lines[1:-1]]
-            if m_total and all(commits):
+            if m_total and commits and all(commits):
                 result.needs_update.append(
                     NeedsUpdate(
                         path=lines[0],
