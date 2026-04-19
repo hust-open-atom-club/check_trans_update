@@ -28,7 +28,21 @@ Run the script directly against a Linux kernel tree:
 ./scripts/checktransupdate.py --log DEBUG -l zh_CN   # verbose
 ```
 
-There are no tests, no linter config, and no build step in this repo.
+Build and preview the static site locally:
+
+```sh
+pip install -r requirements.txt
+python3 build_site.py --todo TODO_LIST --out docs
+mkdocs serve
+```
+
+Run the parser tests:
+
+```sh
+pytest tests/ -v
+```
+
+There is no linter config in this repo; run `pytest tests/ -v` for the parser tests and `mkdocs build` to build the static site.
 
 ## How the script works (the non-obvious parts)
 
@@ -39,6 +53,12 @@ There are no tests, no linter config, and no build step in this repo.
 - **Locale validation.** `-l <locale>` is rejected unless `<linux>/Documentation/translations/<locale>/` exists on disk.
 - **Missing translations.** When run without explicit files, the script walks `Documentation/` (excluding `translations/` and `output/`) for `*.rst` files and reports any whose corresponding translation is absent. `--no-print-missing-translations` suppresses this.
 - **Logging.** All output goes through the `logging` module with a custom dmesg-style formatter, and is written both to stdout and to `checktransupdate.log` (configurable via `--logfile`). `gen_todolist.sh` captures stdout+stderr into `TODO_LIST` via `> ../TODO_LIST 2>&1`.
+
+## Site pipeline
+
+[build_site.py](build_site.py) parses [TODO_LIST](TODO_LIST) into two markdown pages (`docs/needs-translation.md`, `docs/needs-update.md`, both gitignored), which [mkdocs.yml](mkdocs.yml) turns into a static site. A daily cron in [.github/workflows/deploy.yml](.github/workflows/deploy.yml) re-runs the whole pipeline — clones the Linux docs tree, runs `checktransupdate.py`, rebuilds, and deploys to GitHub Pages.
+
+The parser tolerates unrecognized records (`logging.error` lines from `checktransupdate.py`, records with zero valid commits after merge-tag filtering). They are logged and collected into `result.skipped`, not included on the site.
 
 ## Keeping in sync with upstream
 
