@@ -12,6 +12,13 @@
 - **[待翻译](needs-translation.md)** — 尚无中文版本的文档。
 - **[待更新](needs-update.md)** — 中文版本落后于英文原文的文档，附上需要合入的提交列表。
 
+## 贡献翻译
+
+动手翻译前，强烈建议先阅读内核官方的中文翻译者指南。它介绍了文件布局、
+页首格式、评审流程以及常见陷阱：
+
+- [Documentation/translations/zh_CN/how-to.rst](https://www.kernel.org/doc/Documentation/translations/zh_CN/how-to.rst)
+
 ## 来源
 
 - 脚本: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/docs/checktransupdate.py>

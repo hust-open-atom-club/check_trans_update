@@ -16,6 +16,14 @@ pages by this repository's build step.
 - **[Needs update](needs-update.md)** — files whose zh_CN translation is
   behind the English original, with the list of commits to resolve.
 
+## Contributing translations
+
+Before picking up a file from the lists above, read the kernel's
+zh_CN translator how-to (written in Chinese). It covers file layout,
+header format, review workflow, and common pitfalls:
+
+- [Documentation/translations/zh_CN/how-to.rst](https://www.kernel.org/doc/Documentation/translations/zh_CN/how-to.rst)
+
 ## Source
 
 - Script: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/docs/checktransupdate.py>
