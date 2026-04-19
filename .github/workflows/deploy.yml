@@ -43,12 +43,9 @@ jobs:
             || git clone \
                https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
 
-      - name: Copy checktransupdate.py into the tree
-        run: cp checktransupdate.py linux/scripts/checktransupdate.py
-
       - name: Generate TODO_LIST
         working-directory: linux
-        run: python3 scripts/checktransupdate.py -l zh_CN > ../TODO_LIST 2>&1
+        run: python3 tools/docs/checktransupdate.py -l zh_CN > ../TODO_LIST 2>&1
 
       - name: Build markdown pages
         run: python3 build_site.py --todo TODO_LIST --out docs

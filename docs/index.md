@@ -5,7 +5,7 @@ kernel, whether a Chinese (`zh_CN`) translation exists and whether it is up to
 date with the English original.
 
 Data is regenerated **daily** by running
-[`checktransupdate.py`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/checktransupdate.py)
+[`checktransupdate.py`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/docs/checktransupdate.py)
 against the `docs-next` branch of the kernel tree, then rendered into static
 pages by this repository's build step.
 
@@ -18,5 +18,5 @@ pages by this repository's build step.
 
 ## Source
 
-- Script: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/checktransupdate.py>
+- Script: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/docs/checktransupdate.py>
 - Site generator: <https://github.com/mudongliang/check_trans_update>
