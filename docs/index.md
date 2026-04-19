@@ -19,4 +19,4 @@ pages by this repository's build step.
 ## Source
 
 - Script: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/docs/checktransupdate.py>
-- Site generator: <https://github.com/mudongliang/check_trans_update>
+- Site generator: <https://github.com/hust-open-atom-club/check_trans_update>
