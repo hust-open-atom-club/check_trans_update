@@ -21,6 +21,26 @@ theme:
         icon: material/weather-sunny
         name: Switch to light mode
 
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: zh
+          name: 中文
+          build: true
+          site_name: Linux 内核文档 zh_CN 翻译状态
+          nav_translations:
+            Overview: 概览
+            Needs translation: 待翻译
+            Needs update: 待更新
+
 nav:
   - Overview: index.md
   - Needs translation: needs-translation.md

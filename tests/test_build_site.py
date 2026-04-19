@@ -60,7 +60,24 @@ def test_render_needs_update_shows_commits():
     assert "2 file" in md
 
 
-def test_main_writes_two_markdown_files(tmp_path):
+def test_render_chinese_keeps_paths_and_shas_literal():
+    result = parse_todolist(FIXTURE.read_text())
+
+    md = render_needs_translation(result.needs_translation, lang="zh")
+    assert md.startswith("# 待翻译")
+    assert "2 个文件" in md
+    # File paths stay literal across locales.
+    assert "Documentation/w1/w1-netlink.rst" in md
+
+    upd = render_needs_update(result.needs_update, lang="zh")
+    assert upd.startswith("# 待更新")
+    assert "2 个文件" in upd
+    # Commit SHA and upstream-authored subject stay literal.
+    assert "002ec8f1c69d" in upd
+    assert "Documentation: Fix typos" in upd
+
+
+def test_main_writes_both_locale_variants(tmp_path):
     from build_site import main
 
     todo = tmp_path / "TODO_LIST"
@@ -70,7 +87,14 @@ def test_main_writes_two_markdown_files(tmp_path):
 
     main(["--todo", str(todo), "--out", str(out)])
 
+    # English (default locale) -- no suffix.
     assert (out / "needs-translation.md").exists()
     assert (out / "needs-update.md").exists()
     assert "w1-netlink" in (out / "needs-translation.md").read_text()
     assert "002ec8f1c69d" in (out / "needs-update.md").read_text()
+
+    # Chinese -- .zh suffix (matches mkdocs-static-i18n convention).
+    assert (out / "needs-translation.zh.md").exists()
+    assert (out / "needs-update.zh.md").exists()
+    assert "待翻译" in (out / "needs-translation.zh.md").read_text()
+    assert "待更新" in (out / "needs-update.zh.md").read_text()

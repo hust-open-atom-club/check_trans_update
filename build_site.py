@@ -11,6 +11,26 @@ NO_TRANS_RE = re.compile(r"^No translation in the locale of ")
 COMMIT_RE = re.compile(r"^commit ([0-9a-f]+) \(\"(.+)\"\)$")
 TOTAL_RE = re.compile(r"^(\d+) commits needs resolving in total$")
 
+# Locales for which we render a language variant of each generated page.
+# File paths and commit SHAs/subjects stay literal across locales — only
+# page titles, counts, and wrapper prose are translated.
+STRINGS = {
+    "en": {
+        "needs_translation_title": "# Needs translation",
+        "needs_translation_count": "{n} file(s) have no zh_CN translation yet.",
+        "needs_update_title": "# Needs update",
+        "needs_update_count": "{n} file(s) are behind the English original.",
+        "commits_to_resolve": "{n} commit(s) to resolve:",
+    },
+    "zh": {
+        "needs_translation_title": "# 待翻译",
+        "needs_translation_count": "{n} 个文件尚无 zh_CN 翻译。",
+        "needs_update_title": "# 待更新",
+        "needs_update_count": "{n} 个文件落后于英文原文。",
+        "commits_to_resolve": "需要合入的提交（{n} 个）：",
+    },
+}
+
 
 @dataclass
 class NeedsTranslation:
@@ -66,11 +86,12 @@ def parse_todolist(text: str) -> ParsedTodoList:
     return result
 
 
-def render_needs_translation(records: list[NeedsTranslation]) -> str:
+def render_needs_translation(records: list[NeedsTranslation], lang: str = "en") -> str:
+    s = STRINGS[lang]
     lines = [
-        "# Needs translation",
+        s["needs_translation_title"],
         "",
-        f"{len(records)} file(s) have no zh_CN translation yet.",
+        s["needs_translation_count"].format(n=len(records)),
         "",
     ]
     for rec in records:
@@ -79,22 +100,31 @@ def render_needs_translation(records: list[NeedsTranslation]) -> str:
     return "\n".join(lines)
 
 
-def render_needs_update(records: list[NeedsUpdate]) -> str:
+def render_needs_update(records: list[NeedsUpdate], lang: str = "en") -> str:
+    s = STRINGS[lang]
     lines = [
-        "# Needs update",
+        s["needs_update_title"],
         "",
-        f"{len(records)} file(s) are behind the English original.",
+        s["needs_update_count"].format(n=len(records)),
         "",
     ]
     for rec in records:
         lines.append(f"## `{rec.path}`")
         lines.append("")
-        lines.append(f"{rec.total} commit(s) to resolve:")
+        lines.append(s["commits_to_resolve"].format(n=rec.total))
         lines.append("")
         for c in rec.commits:
             lines.append(f"- `{c.sha}` — {c.subject}")
         lines.append("")
     return "\n".join(lines)
+
+
+def _output_filename(stem: str, lang: str) -> str:
+    """Match mkdocs-static-i18n's suffix convention: default locale has no
+    suffix, non-default gets `.<locale>` before the extension."""
+    if lang == "en":
+        return f"{stem}.md"
+    return f"{stem}.{lang}.md"
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -112,14 +142,20 @@ def main(argv: list[str] | None = None) -> None:
 
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "needs-translation.md").write_text(render_needs_translation(parsed.needs_translation))
-    (out_dir / "needs-update.md").write_text(render_needs_update(parsed.needs_update))
+    for lang in STRINGS:
+        (out_dir / _output_filename("needs-translation", lang)).write_text(
+            render_needs_translation(parsed.needs_translation, lang)
+        )
+        (out_dir / _output_filename("needs-update", lang)).write_text(
+            render_needs_update(parsed.needs_update, lang)
+        )
 
     logging.info(
-        "Wrote %d needs-translation, %d needs-update, %d skipped",
+        "Wrote %d needs-translation, %d needs-update, %d skipped (locales: %s)",
         len(parsed.needs_translation),
         len(parsed.needs_update),
         len(parsed.skipped),
+        ", ".join(STRINGS),
     )
 
 
