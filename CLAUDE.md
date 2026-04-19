@@ -62,4 +62,6 @@ The parser tolerates unrecognized records (`logging.error` lines from `checktran
 
 ## Keeping in sync with upstream
 
-Changes to [checktransupdate.py](checktransupdate.py) / [checktransupdate.rst](checktransupdate.rst) / [zh_CN/checktransupdate.rst](zh_CN/checktransupdate.rst) are intended to flow upstream to the Linux kernel tree (`scripts/checktransupdate.py` and `Documentation/doc-guide/`). Keep the three documentation files (English `.rst`, zh_CN `.rst`, and [README.md](README.md)) consistent when editing any of them.
+Changes to [checktransupdate.py](checktransupdate.py) / [checktransupdate.rst](checktransupdate.rst) / [zh_CN/checktransupdate.rst](zh_CN/checktransupdate.rst) are intended to flow upstream to the Linux kernel tree (`scripts/checktransupdate.py` and `Documentation/doc-guide/`). Keep the English `.rst` and zh_CN `.rst` consistent when editing either one — the translation must describe the same feature set as the original.
+
+[README.md](README.md) is this repo's GitHub landing page and is **not** a sync target for the upstream docs. It can intentionally diverge — e.g., omit feature lists that are already documented in `checktransupdate.py` and the `.rst` files.
