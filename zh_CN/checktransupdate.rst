@@ -22,21 +22,22 @@
 - 检查单个文件或一组文件
 - 提供更改输出格式的选项
 - 跟踪没有翻译过的文件的翻译状态
+- 文件参数可以是文件夹而不仅仅是单个文件
 
 用法
 -----
 
 ::
 
-    ./scripts/checktransupdate.py --help
+    tools/docs/checktransupdate.py --help
 
 具体用法请参考参数解析器的输出
 
 示例
 
--  ``./scripts/checktransupdate.py -l zh_CN``
+-  ``tools/docs/checktransupdate.py -l zh_CN``
    这将打印 zh_CN 语言中需要更新的所有文件。
--  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
+-  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
    这将只打印指定文件的状态。
 
 然后输出类似如下的内容：
@@ -50,6 +51,3 @@
     commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
     1 commits needs resolving in total
 
-待实现的功能
-
-- 文件参数可以是文件夹而不仅仅是单个文件

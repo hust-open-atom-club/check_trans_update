@@ -130,6 +130,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.test_venv/
 env/
 venv/
 ENV/
@@ -172,3 +173,8 @@ cython_debug/
 
 # Ignore kernel source code directory
 linux/
+
+# MkDocs build + generated pages
+site/
+docs/needs-translation.md
+docs/needs-update.md
