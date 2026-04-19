@@ -172,3 +172,8 @@ cython_debug/
 
 # Ignore kernel source code directory
 linux/
+
+# MkDocs build + generated pages
+site/
+docs/needs-translation.md
+docs/needs-update.md
