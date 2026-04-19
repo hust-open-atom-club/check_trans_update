@@ -177,7 +177,7 @@ linux/
 # MkDocs build + generated pages
 site/
 docs/needs-translation.md
-docs/needs-translation.zh.md
+docs/needs-translation.en.md
 docs/needs-update.md
-docs/needs-update.zh.md
+docs/needs-update.en.md
 TODO_LIST
