@@ -54,7 +54,9 @@ def test_render_needs_update_shows_commits():
     result = parse_todolist(FIXTURE.read_text())
     md = render_needs_update(result.needs_update)
     assert md.startswith("# Needs update")
-    assert "Documentation/translations/zh_CN/subsystem-apis.rst" in md
+    # Paths are shown with the `Documentation/translations/` prefix stripped.
+    assert "`zh_CN/subsystem-apis.rst`" in md
+    assert "Documentation/translations/zh_CN/subsystem-apis.rst" not in md
     assert "002ec8f1c69d" in md
     assert "Documentation: Fix typos" in md
     assert "2 file" in md

@@ -100,6 +100,18 @@ def render_needs_translation(records: list[NeedsTranslation], lang: str = "en") 
     return "\n".join(lines)
 
 
+_TRANSLATIONS_PREFIX = "Documentation/translations/"
+
+
+def _display_path(path: str) -> str:
+    """Strip the `Documentation/translations/` prefix so the locale segment
+    becomes the visible head of the path (e.g.
+    `Documentation/translations/zh_CN/foo.rst` -> `zh_CN/foo.rst`)."""
+    if path.startswith(_TRANSLATIONS_PREFIX):
+        return path[len(_TRANSLATIONS_PREFIX):]
+    return path
+
+
 def render_needs_update(records: list[NeedsUpdate], lang: str = "en") -> str:
     s = STRINGS[lang]
     lines = [
@@ -109,7 +121,7 @@ def render_needs_update(records: list[NeedsUpdate], lang: str = "en") -> str:
         "",
     ]
     for rec in records:
-        lines.append(f"## `{rec.path}`")
+        lines.append(f"## `{_display_path(rec.path)}`")
         lines.append("")
         lines.append(s["commits_to_resolve"].format(n=rec.total))
         lines.append("")
