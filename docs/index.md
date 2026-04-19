@@ -1,30 +1,25 @@
-# Linux Documentation — zh_CN Translation Status
+# Linux 内核文档 — zh_CN 翻译状态
 
-This site shows, for every page under `Documentation/` in the upstream Linux
-kernel, whether a Chinese (`zh_CN`) translation exists and whether it is up to
-date with the English original.
+本网站跟踪 Linux 内核 `Documentation/` 下每个文档是否已有中文（`zh_CN`）翻译，
+以及翻译是否与英文原文保持同步。
 
-Data is regenerated **daily** by running
+数据每日自动更新：运行
 [`checktransupdate.py`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/docs/checktransupdate.py)
-against the `docs-next` branch of the kernel tree, then rendered into static
-pages by this repository's build step.
+针对内核的 `docs-next` 分支进行扫描，再由本仓库的构建流程渲染为静态页面。
 
-## Sections
+## 分类
 
-- **[Needs translation](needs-translation.md)** — files with no zh_CN
-  counterpart yet.
-- **[Needs update](needs-update.md)** — files whose zh_CN translation is
-  behind the English original, with the list of commits to resolve.
+- **[待翻译](needs-translation.md)** — 尚无中文版本的文档。
+- **[待更新](needs-update.md)** — 中文版本落后于英文原文的文档，附上需要合入的提交列表。
 
-## Contributing translations
+## 贡献翻译
 
-Before picking up a file from the lists above, read the kernel's
-zh_CN translator how-to (written in Chinese). It covers file layout,
-header format, review workflow, and common pitfalls:
+动手翻译前，强烈建议先阅读内核官方的中文翻译者指南。它介绍了文件布局、
+页首格式、评审流程以及常见陷阱：
 
 - [Documentation/translations/zh_CN/how-to.rst](https://www.kernel.org/doc/Documentation/translations/zh_CN/how-to.rst)
 
-## Source
+## 来源
 
-- Script: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/docs/checktransupdate.py>
-- Site generator: <https://github.com/hust-open-atom-club/check_trans_update>
+- 脚本: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/docs/checktransupdate.py>
+- 网站生成器: <https://github.com/hust-open-atom-club/check_trans_update>

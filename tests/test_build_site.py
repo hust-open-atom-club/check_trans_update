@@ -87,14 +87,14 @@ def test_main_writes_both_locale_variants(tmp_path):
 
     main(["--todo", str(todo), "--out", str(out)])
 
-    # English (default locale) -- no suffix.
+    # Chinese (default locale) -- no suffix.
     assert (out / "needs-translation.md").exists()
     assert (out / "needs-update.md").exists()
-    assert "w1-netlink" in (out / "needs-translation.md").read_text()
-    assert "002ec8f1c69d" in (out / "needs-update.md").read_text()
+    assert "待翻译" in (out / "needs-translation.md").read_text()
+    assert "待更新" in (out / "needs-update.md").read_text()
 
-    # Chinese -- .zh suffix (matches mkdocs-static-i18n convention).
-    assert (out / "needs-translation.zh.md").exists()
-    assert (out / "needs-update.zh.md").exists()
-    assert "待翻译" in (out / "needs-translation.zh.md").read_text()
-    assert "待更新" in (out / "needs-update.zh.md").read_text()
+    # English -- .en suffix (matches mkdocs-static-i18n convention).
+    assert (out / "needs-translation.en.md").exists()
+    assert (out / "needs-update.en.md").exists()
+    assert "w1-netlink" in (out / "needs-translation.en.md").read_text()
+    assert "002ec8f1c69d" in (out / "needs-update.en.md").read_text()

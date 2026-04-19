@@ -119,10 +119,14 @@ def render_needs_update(records: list[NeedsUpdate], lang: str = "en") -> str:
     return "\n".join(lines)
 
 
+# Must match the `default: true` locale in mkdocs.yml's i18n plugin config.
+DEFAULT_LOCALE = "zh"
+
+
 def _output_filename(stem: str, lang: str) -> str:
     """Match mkdocs-static-i18n's suffix convention: default locale has no
     suffix, non-default gets `.<locale>` before the extension."""
-    if lang == "en":
+    if lang == DEFAULT_LOCALE:
         return f"{stem}.md"
     return f"{stem}.{lang}.md"
 
