@@ -1,6 +1,6 @@
 site_name: Linux 内核中文文档翻译状态
 site_description: Linux 内核中文文档翻译状态 · 每日自动更新
-site_url: https://hust-open-atom-club.github.io/check_trans_update/
+site_url: https://checktrans.openatom.club/
 repo_url: https://github.com/hust-open-atom-club/check_trans_update
 repo_name: hust-open-atom-club/check_trans_update
 
