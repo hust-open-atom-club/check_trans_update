@@ -3,7 +3,7 @@
 if [ -e linux ];then
     git pull
 else
-    git clone --branch docs-next https://git.lwn.net/linux.git linux
+    git clone --branch docs-next git://git.lwn.net/linux.git linux
 fi
 
 cd linux

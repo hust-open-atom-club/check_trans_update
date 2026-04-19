@@ -39,7 +39,7 @@ jobs:
       - name: Clone linux docs tree
         run: |
           git clone --branch docs-next \
-            https://git.lwn.net/linux.git linux \
+            git://git.lwn.net/linux.git linux \
             || git clone \
                https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
 
