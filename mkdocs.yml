@@ -1,0 +1,32 @@
+site_name: Linux Doc zh_CN Translation Status
+site_description: Daily status of zh_CN translations of Linux kernel documentation
+site_url: https://mudongliang.github.io/check_trans_update/
+repo_url: https://github.com/mudongliang/check_trans_update
+repo_name: mudongliang/check_trans_update
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+nav:
+  - Overview: index.md
+  - Needs translation: needs-translation.md
+  - Needs update: needs-update.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
