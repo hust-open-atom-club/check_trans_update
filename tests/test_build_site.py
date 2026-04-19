@@ -58,3 +58,19 @@ def test_render_needs_update_shows_commits():
     assert "002ec8f1c69d" in md
     assert "Documentation: Fix typos" in md
     assert "2 file" in md
+
+
+def test_main_writes_two_markdown_files(tmp_path):
+    from build_site import main
+
+    todo = tmp_path / "TODO_LIST"
+    todo.write_text(FIXTURE.read_text())
+    out = tmp_path / "docs"
+    out.mkdir()
+
+    main(["--todo", str(todo), "--out", str(out)])
+
+    assert (out / "needs-translation.md").exists()
+    assert (out / "needs-update.md").exists()
+    assert "w1-netlink" in (out / "needs-translation.md").read_text()
+    assert "002ec8f1c69d" in (out / "needs-update.md").read_text()

@@ -95,3 +95,33 @@ def render_needs_update(records: list[NeedsUpdate]) -> str:
             lines.append(f"- `{c.sha}` — {c.subject}")
         lines.append("")
     return "\n".join(lines)
+
+
+def main(argv: list[str] | None = None) -> None:
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser(description="Build MkDocs pages from TODO_LIST")
+    parser.add_argument("--todo", default="TODO_LIST", help="Path to TODO_LIST")
+    parser.add_argument("--out", default="docs", help="Output directory for generated .md")
+    args = parser.parse_args(argv)
+
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+
+    text = Path(args.todo).read_text()
+    parsed = parse_todolist(text)
+
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "needs-translation.md").write_text(render_needs_translation(parsed.needs_translation))
+    (out_dir / "needs-update.md").write_text(render_needs_update(parsed.needs_update))
+
+    logging.info(
+        "Wrote %d needs-translation, %d needs-update, %d skipped",
+        len(parsed.needs_translation),
+        len(parsed.needs_update),
+        len(parsed.skipped),
+    )
+
+
+if __name__ == "__main__":
+    main()
