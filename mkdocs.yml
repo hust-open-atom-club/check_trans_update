@@ -1,8 +1,8 @@
 site_name: Linux Doc zh_CN Translation Status
 site_description: Daily status of zh_CN translations of Linux kernel documentation
-site_url: https://mudongliang.github.io/check_trans_update/
-repo_url: https://github.com/mudongliang/check_trans_update
-repo_name: mudongliang/check_trans_update
+site_url: https://hust-open-atom-club.github.io/check_trans_update/
+repo_url: https://github.com/hust-open-atom-club/check_trans_update
+repo_name: hust-open-atom-club/check_trans_update
 
 theme:
   name: material
