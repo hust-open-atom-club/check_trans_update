@@ -1,5 +1,6 @@
 from pathlib import Path
 from build_site import Commit, parse_todolist
+from build_site import render_needs_translation, render_needs_update
 
 FIXTURE = Path(__file__).parent / "fixtures" / "todo_list_sample.txt"
 
@@ -38,3 +39,22 @@ def test_parse_skips_unrecognized_records():
     assert "Documentation/weird/broken.rst" in skipped_paths
     assert "Documentation/translations/zh_CN/fake/only-merges.rst" in skipped_paths
     assert len(result.skipped) == 2
+
+
+def test_render_needs_translation_lists_paths():
+    result = parse_todolist(FIXTURE.read_text())
+    md = render_needs_translation(result.needs_translation)
+    assert md.startswith("# Needs translation")
+    assert "Documentation/w1/w1-netlink.rst" in md
+    assert "Documentation/RCU/rcubarrier.rst" in md
+    assert "2 file" in md  # count header
+
+
+def test_render_needs_update_shows_commits():
+    result = parse_todolist(FIXTURE.read_text())
+    md = render_needs_update(result.needs_update)
+    assert md.startswith("# Needs update")
+    assert "Documentation/translations/zh_CN/subsystem-apis.rst" in md
+    assert "002ec8f1c69d" in md
+    assert "Documentation: Fix typos" in md
+    assert "2 file" in md

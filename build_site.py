@@ -64,3 +64,34 @@ def parse_todolist(text: str) -> ParsedTodoList:
                 result.skipped.append(lines)
                 logging.warning("Skipping unrecognized record: %r", lines[0])
     return result
+
+
+def render_needs_translation(records: list[NeedsTranslation]) -> str:
+    lines = [
+        "# Needs translation",
+        "",
+        f"{len(records)} file(s) have no zh_CN translation yet.",
+        "",
+    ]
+    for rec in records:
+        lines.append(f"- `{rec.path}`")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def render_needs_update(records: list[NeedsUpdate]) -> str:
+    lines = [
+        "# Needs update",
+        "",
+        f"{len(records)} file(s) are behind the English original.",
+        "",
+    ]
+    for rec in records:
+        lines.append(f"## `{rec.path}`")
+        lines.append("")
+        lines.append(f"{rec.total} commit(s) to resolve:")
+        lines.append("")
+        for c in rec.commits:
+            lines.append(f"- `{c.sha}` — {c.subject}")
+        lines.append("")
+    return "\n".join(lines)
