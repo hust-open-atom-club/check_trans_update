@@ -35,12 +35,27 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Clone linux docs tree
+      - name: Cache linux tree
+        uses: actions/cache@v4
+        with:
+          path: linux
+          key: linux-docs-next-${{ github.run_id }}
+          restore-keys: |
+            linux-docs-next-
+
+      - name: Clone or update linux docs tree
         run: |
-          git clone --branch docs-next \
-            git://git.lwn.net/linux.git linux \
-            || git clone \
-               https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
+          if [ -d linux/.git ]; then
+            echo "Cache hit; fetching latest docs-next"
+            git -C linux fetch origin docs-next
+            git -C linux reset --hard FETCH_HEAD
+          else
+            echo "Cache miss; cloning"
+            git clone --branch docs-next \
+              git://git.lwn.net/linux.git linux \
+              || git clone \
+                 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux
+          fi
 
       - name: Overlay repo's checktransupdate.py onto the tree
         # Our copy carries a fix not yet merged upstream; overwrite the
