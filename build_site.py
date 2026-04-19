@@ -8,6 +8,8 @@ from pathlib import Path
 
 TIMESTAMP_RE = re.compile(r"^\[[\d.]+\]\s?")
 NO_TRANS_RE = re.compile(r"^No translation in the locale of ")
+COMMIT_RE = re.compile(r"^commit ([0-9a-f]+) \(\"(.+)\"\)$")
+TOTAL_RE = re.compile(r"^(\d+) commits needs resolving in total$")
 
 
 @dataclass
@@ -48,6 +50,17 @@ def parse_todolist(text: str) -> ParsedTodoList:
         if len(lines) == 2 and NO_TRANS_RE.match(lines[1]):
             result.needs_translation.append(NeedsTranslation(path=lines[0]))
         else:
-            result.skipped.append(lines)
-            logging.warning("Skipping unrecognized record: %r", lines[0])
+            m_total = TOTAL_RE.match(lines[-1])
+            commits = [COMMIT_RE.match(l) for l in lines[1:-1]]
+            if m_total and all(commits):
+                result.needs_update.append(
+                    NeedsUpdate(
+                        path=lines[0],
+                        commits=[Commit(sha=m.group(1), subject=m.group(2)) for m in commits],
+                        total=int(m_total.group(1)),
+                    )
+                )
+            else:
+                result.skipped.append(lines)
+                logging.warning("Skipping unrecognized record: %r", lines[0])
     return result
