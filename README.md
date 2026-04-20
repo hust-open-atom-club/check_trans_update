@@ -14,6 +14,16 @@ translation commit (ordered by author date) and the latest English commit on
 HEAD. If they differ, the file is considered out-of-date, and the commits
 that need to be resolved are collected and reported.
 
+## Repository layout
+
+The canonical checker lives upstream in the Linux kernel tree at
+`tools/docs/checktransupdate.py`. The copy at the root of this repo is a
+temporary overlay that carries a fix not yet merged upstream; the build
+pipeline (`gen_todolist.sh` and the GitHub Actions workflow) copies it over
+the in-tree version before running the checker. Once the fix lands upstream,
+the root copy can be deleted. Edits to the checker itself should be submitted
+upstream, not just applied here.
+
 ## Static site
 
 Translation status is published as a static site built with MkDocs (Material
@@ -30,4 +40,12 @@ pip install -r requirements.txt
 
 python3 build_site.py --todo TODO_LIST --out docs
 mkdocs serve
+```
+
+### Tests
+
+The `TODO_LIST` parser has unit tests:
+
+```sh
+pytest tests/ -v
 ```
