@@ -24,7 +24,7 @@ STRINGS = {
     },
     "zh": {
         "needs_translation_title": "# 待翻译",
-        "needs_translation_count": "{n} 个文件尚无 zh_CN 翻译。",
+        "needs_translation_count": "{n} 个文件尚无中文翻译。",
         "needs_update_title": "# 待更新",
         "needs_update_count": "{n} 个文件落后于英文原文。",
         "commits_to_resolve": "需要合入的提交（{n} 个）：",
